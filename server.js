@@ -22,7 +22,7 @@ app.get('/', (request, response) => {
   app.put('/users/:id', db.updateUser)
   app.delete('/users/:id', db.deleteUser)
 
-  app.listen(port, () => {
+  app.listen(process.env.PORT || port, () => {
     console.log(`App running on port ${port}.`)
   })
 
