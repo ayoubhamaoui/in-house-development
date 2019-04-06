@@ -4,6 +4,7 @@ import './App.css';
 import Home from './pages/Home';
 import List from './pages/List';
 import NavBar from './pages/NavBar';
+import {Form} from './pages/Form';
 
 class App extends Component {
   render() {
@@ -14,6 +15,7 @@ class App extends Component {
           <Route exact path='/' component={Home}/>
           <Route path='/list' component={List}/>
         </Switch>
+        <Form/>
       </div>
     )
     return (
