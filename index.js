@@ -15,6 +15,9 @@ app.use(
   })
 )
 
+/*Get all cities*/
+app.get('/cities', db.getCities)
+
 
 app.get('/users', db.getUsers)
   app.get('/users/:id', db.getUserById)
