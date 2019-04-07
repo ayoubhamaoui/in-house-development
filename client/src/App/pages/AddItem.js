@@ -48,11 +48,11 @@ class AddItem extends Component {
   <div className="form-label-group">
     <input type="text" className="form-control" name="name"  value={name} onChange={this.changeHandler} />
   </div>
-
+  <br/>
   <div className="form-label-group">
     <input type="text" className="form-control" name="email" value={email} onChange={this.changeHandler} />
   </div>
-
+  <br/>
   <button className="btn btn-lg btn-primary btn-block" type="submit">Add</button>
 </form>
       </div>
