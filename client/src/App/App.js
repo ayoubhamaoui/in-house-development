@@ -4,7 +4,8 @@ import './App.css';
 import Home from './pages/Home';
 import List from './pages/List';
 import NavBar from './pages/NavBar';
-import {Form} from './pages/Form';
+import AddItem from './pages/AddItem';
+
 
 class App extends Component {
   render() {
@@ -12,10 +13,10 @@ class App extends Component {
       <div>
         <NavBar />
         <Switch>
+          <Route path="/additem" component={AddItem}/>
           <Route exact path='/' component={Home}/>
           <Route path='/list' component={List}/>
         </Switch>
-        <Form/>
       </div>
     )
     return (
