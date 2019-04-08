@@ -7,9 +7,12 @@ class AddItem extends Component {
     super(props);
     this.state={
       name:'',
-      email:''
+      email:'',
+      cityList:[]
     }
-
+    axios.get('/cities')
+    .then(response => response)
+    .then(data => this.setState({cityList:data.data}))
   }
 
   changeHandler = (e) =>{
@@ -29,7 +32,8 @@ class AddItem extends Component {
   }
 
     render() {
-      const {name,email} =this.state
+      const {name,email,cityList} =this.state
+      //console.log(cityList)
       return (
       <section>
       <div className="container">
@@ -46,11 +50,17 @@ class AddItem extends Component {
     </div>
 
   <div className="form-label-group">
-    <input type="text" className="form-control" name="name"  value={name} onChange={this.changeHandler} />
+    <input type="text" placeholder="Title" className="form-control" name="name"  value={name} onChange={this.changeHandler} />
   </div>
   <br/>
   <div className="form-label-group">
-    <input type="text" className="form-control" name="email" value={email} onChange={this.changeHandler} />
+  <select className="form-control"  name="email" value={email}  onChange={this.changeHandler} required>
+                          <option value="">-- Select City --</option>
+                          {cityList.map(city =>
+                              <option key={city.idcitie} value={city.nomcitie}>{city.nomcitie}</option>
+                          )}
+                      </select>
+
   </div>
   <br/>
   <button className="btn btn-lg btn-primary btn-block" type="submit">Add</button>
