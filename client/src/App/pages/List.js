@@ -21,6 +21,9 @@ class List extends Component {
             console.log(error)
           });
           this.props.history.push("/list");
+          fetch('/users')
+          .then(res => res.json())
+          .then(list => this.setState({ list }))
   }
   // Fetch the list on first mount
   componentDidMount() {
