@@ -20,11 +20,15 @@ class List extends Component {
           .catch(error=>{
             console.log(error)
           });
-          window.location.reload();
+          this.props.history.push("/list");
   }
   // Fetch the list on first mount
   componentDidMount() {
     this.getList();
+  }
+
+  handleEdit = e =>{
+    this.props.history.push("/item/edit/" + e.target.getAttribute('id'));
   }
 
   // Retrieves the list of items from the Express app
@@ -52,7 +56,7 @@ class List extends Component {
                     <div className="d-flex justify-content-between align-items-center">
                       <div className="btn-group">
                         <button type="button" className="btn btn-sm btn-outline-secondary" onClick={this.handleDelete} id={item.id}>Delete</button>
-                        <button type="button" className="btn btn-sm btn-outline-secondary">Edit</button>
+                        <button type="button" className="btn btn-sm btn-outline-secondary" onClick={this.handleEdit} id={item.id}>Edit</button>
                       </div>
                     </div>
                   </div>

@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import List from './pages/List';
 import NavBar from './pages/NavBar';
 import AddItem from './pages/AddItem';
+import EditItem from './pages/EditItem';
 
 
 class App extends Component {
@@ -16,6 +17,7 @@ class App extends Component {
           <Route path="/additem" component={AddItem}/>
           <Route exact path='/' component={Home}/>
           <Route path='/list' component={List}/>
+          <Route path='/item/edit/:itemid' component={EditItem} />
         </Switch>
       </div>
     )
