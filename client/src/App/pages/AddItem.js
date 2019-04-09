@@ -26,6 +26,7 @@ class AddItem extends Component {
     axios.post('/items', this.state)
     .then(response => {
       console.log(response)
+      this.props.history.push("/list");
     })
     .catch(error=>{
       console.log(error)
