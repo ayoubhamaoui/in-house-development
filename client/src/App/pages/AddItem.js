@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from  'axios'
-
+import {storage} from '../../firebase';
 
 class AddItem extends Component {
   constructor(props) {
@@ -9,12 +9,58 @@ class AddItem extends Component {
       title:'',
       city:'',
       imgurl:'',
+      progress: 0,
+      image: null,
       cityList:[]
     }
+    this.handleChange = this
+      .handleChange
+      .bind(this);
+      this.handleUpload = this.handleUpload.bind(this);
     axios.get('/cities')
     .then(response => response)
     .then(data => this.setState({cityList:data.data}))
   }
+
+
+
+
+//image Handlers
+
+handleChange = e => {
+  if (e.target.files[0]) {
+    const image = e.target.files[0];
+    this.setState(() => ({image}));
+  }
+}
+handleUpload = (e) => {
+    const {image} = this.state;
+    const uploadTask = storage.ref(`images/${image.name}`).put(image);
+    uploadTask.on('state_changed',
+    (snapshot) => {
+      // progrss function ....
+      const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+      this.setState({progress});
+    },
+    (error) => {
+         // error function ....
+      console.log(error);
+    },
+  () => {
+      // complete function ....
+      storage.ref('images').child(image.name).getDownloadURL().then(imgurl => {
+          console.log(imgurl);
+          this.setState({imgurl});
+      })
+  });
+
+
+}
+
+
+//end image Handlers
+
+
 
   changeHandler = (e) =>{
     this.setState({[e.target.name]: e.target.value })
@@ -34,7 +80,14 @@ class AddItem extends Component {
   }
 
     render() {
-      const {title,city,imgurl,cityList} =this.state
+      const {title,city,imgurl,cityList} =this.state;
+      const style = {
+        height: '60vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center'
+      };
       //console.log(cityList)
       return (
       <section>
@@ -63,16 +116,20 @@ class AddItem extends Component {
                           )}
                       </select>
   </div>
-  <br/>
+
   <div className="form-label-group">
-    <input type="file" />
+  <div style={style}>
+  <progress className="progress-bar" value={this.state.progress} max="100"/>
+  <br/>
+    <input type="file" onChange={this.handleChange}/><br/>
+    <button className="btn btn-lg btn-primary btn-block" onClick={this.handleUpload} type="button">UPLOAD IMAGE</button>
+    <br/>
+    <img src={this.state.imgurl || 'http://via.placeholder.com/400x300'} alt="Uploaded images" height="300" width="400"/>
+  </div>
+    Image URL:<input type="text" className="form-control" name="imgurl"  value={imgurl} onChange={this.changeHandler} disabled/>
   </div>
   <br/>
-  <div className="form-label-group">
-    <input type="text" className="form-control" name="imgurl"  value={imgurl} onChange={this.changeHandler} disabled/>
-  </div>
-  <br/>
-  <button className="btn btn-lg btn-primary btn-block" type="submit">Add</button>
+  <button className="btn btn-lg btn-primary btn-block" onClick={this.handleUpload} type="submit" disabled={!this.state.imgurl}>Submit</button>
 </form>
       </div>
       </section>
