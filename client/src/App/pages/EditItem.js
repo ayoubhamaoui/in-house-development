@@ -6,21 +6,22 @@ class AddItem extends Component {
   constructor(props) {
     super(props);
     this.state={
-      name:'',
-      email:'',
+      title:'',
+      city:'',
+      imgurl:'',
       cityList:[]
     }
     var itemid = this.props.match.params["itemid"];
-    console.log(itemid)
+    //console.log(itemid)
     axios.get('/cities')
     .then(response => response)
     .then(data => this.setState({cityList:data.data}));
 
-    axios.get('/users/'+itemid)
+    axios.get('/items/'+itemid)
     .then(res => res)
     .then(data=>{
-      //console.log(data.data[0].email)
-      this.setState({name:data.data[0].name,email:data.data[0].email})
+      console.log(data.data[0])
+      this.setState({title:data.data[0].title,city:data.data[0].city,imgurl:data.data[0].imgurl})
     })
   }
 
@@ -32,7 +33,7 @@ class AddItem extends Component {
     e.preventDefault()
     //console.log(this.props.match.params["itemid"])
     var itemid = this.props.match.params["itemid"];
-    axios.put('/users/'+itemid, this.state)
+    axios.put('/items/'+itemid, this.state)
     .then(response => {
       console.log(response)
       this.props.history.push("/list");
@@ -43,7 +44,7 @@ class AddItem extends Component {
   }
 
     render() {
-      const {name,email,cityList} =this.state
+      const {title,city,imgurl,cityList} =this.state
       //console.log(cityList)
       return (
       <section>
@@ -57,15 +58,15 @@ class AddItem extends Component {
       }}>
   <div className="text-center mb-4">
     <img className="mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72"/>
-    <h1 className="h3 mb-3 font-weight-normal">EDIT ITEM {name}</h1>
+    <h1 className="h3 mb-3 font-weight-normal">EDIT ITEM <strong>{title}</strong></h1>
     </div>
 
   <div className="form-label-group">
-    <input type="text" placeholder="Title" className="form-control" name="name"  value={name} onChange={this.changeHandler} />
+    <input type="text" placeholder="Title" className="form-control" name="title"  value={title} onChange={this.changeHandler} />
   </div>
   <br/>
   <div className="form-label-group">
-  <select className="form-control"  name="email" defaultValue={email} data-val="true" onChange={this.changeHandler} required>
+  <select className="form-control"  name="city" value={city} data-val="true" onChange={this.changeHandler} required>
                           <option value="">-- Select City --</option>
                           {cityList.map(city =>
                               <option key={city.idcitie} value={city.nomcitie}>{city.nomcitie}</option>
@@ -75,6 +76,10 @@ class AddItem extends Component {
   <br/>
   <div className="form-label-group">
     <input type="file" />
+  </div>
+  <br/>
+  <div className="form-label-group">
+    <input type="text" className="form-control" name="imgurl"  value={imgurl} onChange={this.changeHandler} disabled/>
   </div>
   <br/>
   <button className="btn btn-lg btn-primary btn-block" type="submit">Edit</button>

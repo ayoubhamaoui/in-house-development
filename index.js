@@ -18,12 +18,12 @@ app.use(
 /*Get all cities*/
 app.get('/cities', db.getCities)
 
-
-app.get('/users', db.getUsers)
-  app.get('/users/:id', db.getUserById)
-  app.post('/users', db.createUser)
-  app.put('/users/:id', db.updateUser)
-  app.delete('/users/:id', db.deleteUser)
+/*API CRUD ITEM*/
+app.get('/items', db.getItems)
+app.get('/items/:id', db.getItemById)
+app.post('/items', db.createItem)
+app.put('/items/:id', db.updateItem)
+app.delete('/items/:id', db.deleteItem)
 
 
 

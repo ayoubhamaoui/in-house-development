@@ -1,4 +1,5 @@
 const Pool = require('pg').Pool
+
 const pool = new Pool({
   user: 'feethrrkotchci',
   host: 'ec2-46-137-113-157.eu-west-1.compute.amazonaws.com',
@@ -7,6 +8,15 @@ const pool = new Pool({
   port: 5432,
   "ssl":true,
 })
+
+/*
+const pool = new Pool({
+  user: 'postgres',
+  host: 'localhost',
+  database: 'postgres',
+  password: 'hamaoui10',
+  port: 5432,
+})*/
 
 
 
@@ -20,8 +30,8 @@ const getCities = (request, response) => {
   }
 
 
-const getUsers = (request, response) => {
-    pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
+const getItems = (request, response) => {
+    pool.query('SELECT * FROM items ORDER BY id ASC', (error, results) => {
       if (error) {
         throw error
       }
@@ -30,10 +40,10 @@ const getUsers = (request, response) => {
   }
 
 
-  const getUserById = (request, response) => {
+  const getItemById = (request, response) => {
     const id = parseInt(request.params.id)
 
-    pool.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
+    pool.query('SELECT * FROM items WHERE id = $1', [id], (error, results) => {
       if (error) {
         throw error
       }
@@ -41,51 +51,51 @@ const getUsers = (request, response) => {
     })
   }
 
-  const createUser = (request, response) => {
-    const { name, email } = request.body
+  const createItem = (request, response) => {
+    const { title, city, imgurl } = request.body
 
-    pool.query('INSERT INTO users (name, email) VALUES ($1, $2)', [name, email], (error, results) => {
+    pool.query('INSERT INTO items (title, city, imgurl) VALUES ($1, $2, $3)', [title, city, imgurl], (error, results) => {
       if (error) {
         throw error
       }
-      response.status(201).send(`User added with ID: ${results.insertId}`)
+      response.status(201).send(`Item added with ID: ${results.insertId}`)
     })
   }
 
-  const updateUser = (request, response) => {
+  const updateItem = (request, response) => {
     const id = parseInt(request.params.id)
-    const { name, email } = request.body
+    const { title, city, imgurl } = request.body
 
     pool.query(
-      'UPDATE users SET name = $1, email = $2 WHERE id = $3',
-      [name, email, id],
+      'UPDATE items SET title = $1, city = $2, imgurl = $3 WHERE id = $4',
+      [title, city, imgurl, id],
       (error, results) => {
         if (error) {
           throw error
         }
-        response.status(200).send(`User modified with ID: ${id}`)
+        response.status(200).send(`Item modified with ID: ${id}`)
       }
     )
   }
 
-  const deleteUser = (request, response) => {
+  const deleteItem = (request, response) => {
     const id = parseInt(request.params.id)
 
-    pool.query('DELETE FROM users WHERE id = $1', [id], (error, results) => {
+    pool.query('DELETE FROM items WHERE id = $1', [id], (error, results) => {
       if (error) {
         throw error
       }
-      response.status(200).send(`User deleted with ID: ${id}`)
+      response.status(200).send(`Item deleted with ID: ${id}`)
     })
   }
 
 
 
   module.exports = {
-    getUsers,
+    getItems,
     getCities,
-    getUserById,
-    createUser,
-    updateUser,
-    deleteUser,
+    getItemById,
+    createItem,
+    updateItem,
+    deleteItem,
   }

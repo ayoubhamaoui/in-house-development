@@ -6,8 +6,9 @@ class AddItem extends Component {
   constructor(props) {
     super(props);
     this.state={
-      name:'',
-      email:'',
+      title:'',
+      city:'',
+      imgurl:'',
       cityList:[]
     }
     axios.get('/cities')
@@ -22,7 +23,7 @@ class AddItem extends Component {
   submitHandler = e =>{
     e.preventDefault()
     console.log(this.state)
-    axios.post('/users', this.state)
+    axios.post('/items', this.state)
     .then(response => {
       console.log(response)
     })
@@ -32,7 +33,7 @@ class AddItem extends Component {
   }
 
     render() {
-      const {name,email,cityList} =this.state
+      const {title,city,imgurl,cityList} =this.state
       //console.log(cityList)
       return (
       <section>
@@ -50,20 +51,24 @@ class AddItem extends Component {
     </div>
 
   <div className="form-label-group">
-    <input type="text" placeholder="Title" className="form-control" name="name"  value={name} onChange={this.changeHandler} />
+    <input type="text" placeholder="Title" className="form-control" name="title"  value={title} onChange={this.changeHandler} />
   </div>
   <br/>
   <div className="form-label-group">
-  <select className="form-control"  name="email" value={email}  onChange={this.changeHandler} required>
+  <select className="form-control"  name="city" value={city}  onChange={this.changeHandler} required>
                           <option value="">-- Select City --</option>
-                          {cityList.map(city =>
-                              <option key={city.idcitie} value={city.nomcitie}>{city.nomcitie}</option>
+                          {cityList.map(ct =>
+                              <option key={ct.idcitie} value={ct.nomcitie}>{ct.nomcitie}</option>
                           )}
                       </select>
   </div>
   <br/>
   <div className="form-label-group">
     <input type="file" />
+  </div>
+  <br/>
+  <div className="form-label-group">
+    <input type="text" className="form-control" name="imgurl"  value={imgurl} onChange={this.changeHandler} disabled/>
   </div>
   <br/>
   <button className="btn btn-lg btn-primary btn-block" type="submit">Add</button>
