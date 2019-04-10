@@ -82,14 +82,6 @@ handleUpload = (e) => {
 
     render() {
       const {title,city,imgurl,cityList} =this.state;
-      const style = {
-        height: '60vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center'
-      };
-
       const divStyle={
         width: this.state.progress+'%',
       }

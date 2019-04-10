@@ -95,13 +95,9 @@ class AddItem extends Component {
 
     render() {
       const {title,city,imgurl,cityList} =this.state
-      const style = {
-        height: '60vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center'
-      };
+      const divStyle={
+        width: this.state.progress+'%',
+      }
       //console.log(cityList)
       return (
       <section>
@@ -130,14 +126,16 @@ class AddItem extends Component {
                           )}
                       </select>
   </div>
-  <div className="form-label-group">
-  <div style={style}>
-  <progress className="progress-bar" value={this.state.progress} max="100"/>
   <br/>
-    <input type="file" onChange={this.handleChange}/><br/>
+  <div className="form-label-group">
+  <div className="container">
+    <input type="file" onChange={this.handleChange}/><br/><br/>
     <button className="btn btn-lg btn-primary btn-block" onClick={this.handleUpload} type="button">UPLOAD IMAGE</button>
     <br/>
-    <img src={this.state.imgurl || 'http://via.placeholder.com/400x300'} alt="Uploaded images" height="300" width="400"/>
+    <img src={this.state.imgurl || 'http://via.placeholder.com/350x250'} alt="Uploaded images" height="250" width="350"/>
+    <div className="progress">
+      <div className="progress-bar" role="progressbar" style={divStyle} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{this.state.progress}%</div>
+    </div>
   </div>
     Image URL:<input type="text" className="form-control" name="imgurl"  value={imgurl} onChange={this.changeHandler} disabled/>
   </div>
