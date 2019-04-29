@@ -54,11 +54,9 @@ class AddItem extends Component {
         this.setState({progress});
       },
       (error) => {
-           // error function ....
         console.log(error);
       },
     () => {
-        // complete function ....
         storage.ref('images').child(image.name).getDownloadURL().then(imgurl => {
             console.log(imgurl);
             this.setState({imgurl});
@@ -67,7 +65,6 @@ class AddItem extends Component {
 
 
   }
-
 
   //end image Handlers
 
