@@ -11,12 +11,14 @@ Clone the Github repository and use NPM to install dependencies.
 ```
 $ git clone https://github.com/ayoubhamaoui/in-house-development.git
 $ cd in-house-development
+$ npm install
 $ npm run start
 ```
 
 * Run client side:
 ```
 $ cd in-house-development/client
+$ npm install
 $ npm run start
 ```
 Visit http://localhost:3000/
